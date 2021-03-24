@@ -1,31 +1,20 @@
 #include <ESP8266WiFi.h>
-int value0 = LOW;
-int value1 = LOW;
-int value2 = LOW;
-int value3 = LOW;
+int value[4] = {LOW,LOW,LOW,LOW};
 int disko = LOW;
+int i = 0;
 const char* ssid = "Furkan Parlak";
 const char* password = "RV7CUUPTJTFC";
 
-int ledPin0 = 15; // GPIO13---D7 of NodeMCU
-int ledPin1 = 13; // GPIO13---D7 of NodeMCU
-int ledPin2 = 12; // GPIO13---D7 of NodeMCU
-int ledPin3 = 14; // GPIO13---D7 of NodeMCU
+int ledPin[4] = {15,13,12,14}; // GPIO13---D7 of NodeMCU
 WiFiServer server(80);
 
 void setup() {
   Serial.begin(115200);
-
-
-  pinMode(ledPin0, OUTPUT);
-  digitalWrite(ledPin0, 1);
-  pinMode(ledPin2, OUTPUT);
-  digitalWrite(ledPin2, 1);
-  pinMode(ledPin3, OUTPUT);
-  digitalWrite(ledPin3, 1);
-  pinMode(ledPin1, OUTPUT);
-  digitalWrite(ledPin1, 1);
-
+for(i=0;i<4;i++)
+{
+  pinMode(ledPin [i], OUTPUT);
+  digitalWrite(ledPin[i], 1);
+}
   // Connect to WiFi network
   Serial.println();
   Serial.println();
@@ -74,50 +63,50 @@ void loop() {
   // Match the request
 
 if(request.indexOf("/disko=on") != -1){
-  digitalWrite(ledPin0, 0);
+  digitalWrite(ledPin[0], 0);
   delay(300);
-  digitalWrite(ledPin0, 1);
-  digitalWrite(ledPin1, 0);
+  digitalWrite(ledPin[0], 1);
+  digitalWrite(ledPin[1], 0);
   delay(300);
-  digitalWrite(ledPin1, 1);
-  digitalWrite(ledPin2, 0);
+  digitalWrite(ledPin[1], 1);
+  digitalWrite(ledPin[2], 0);
   delay(300);
-  digitalWrite(ledPin2, 1);
-  digitalWrite(ledPin3, 0);
+  digitalWrite(ledPin[2], 1);
+  digitalWrite(ledPin[3], 0);
   delay(300);
-  digitalWrite(ledPin3, 1);
+  digitalWrite(ledPin[3], 1);
 }
 
 
   if (request.indexOf("/LED0=ON") != -1)  {
-    digitalWrite(ledPin0, 0);
-    value0 = HIGH;
+    digitalWrite(ledPin[0], 0);
+    value[0] = HIGH;
   }
   if (request.indexOf("/LED0=OFF") != -1)  {
-    digitalWrite(ledPin0, 1);
-    value0 = LOW;
+    digitalWrite(ledPin[0], 1);
+    value[0]= LOW;
   }
   if (request.indexOf("/LED1=ON") != -1)  {
-    digitalWrite(ledPin1, 0);
-    value1 = HIGH;
+    digitalWrite(ledPin[1], 0);
+    value[1] = HIGH;
   }
   if (request.indexOf("/LED1=OFF") != -1)  {
-    digitalWrite(ledPin1, 1);
-    value1 = LOW;
+    digitalWrite(ledPin[1], 1);
+    value[1] = LOW;
   } if (request.indexOf("/LED2=ON") != -1)  {
-    digitalWrite(ledPin2, 0);
-    value2 = HIGH;
+    digitalWrite(ledPin[2], 0);
+    value[2] = HIGH;
   }
   if (request.indexOf("/LED2=OFF") != -1)  {
-    digitalWrite(ledPin2, 1);
-    value2 = LOW;
+    digitalWrite(ledPin[2], 1);
+    value[2] = LOW;
   } if (request.indexOf("/LED3=ON") != -1)  {
-    digitalWrite(ledPin3, 0);
-    value3 = HIGH;
+    digitalWrite(ledPin[3], 0);
+    value[3] = HIGH;
   }
   if (request.indexOf("/LED3=OFF") != -1)  {
-    digitalWrite(ledPin3, 1);
-    value3 = LOW;
+    digitalWrite(ledPin[3], 1);
+    value[3] = LOW;
   }
 
   // Set ledPin according to the request
@@ -130,53 +119,24 @@ if(request.indexOf("/disko=on") != -1){
   client.println("<!DOCTYPE HTML>");
   client.println("<html>");
 
-
-
-
-
-
-
-
-  client.print("Led1 is now: ");
-  if (value0 == HIGH) {
+  for(i=0;i<4;i++)
+  {
+    client.println("<br><br>");
+  client.println("<a href=\"/LED");
+  client.println(i);
+  client.println("=ON\"\"><button>On </button></a>");
+  client.println("<a href=\"/LED");
+  client.println(i);
+  client.println("=Off\"\"><button>Off </button></a>");
+  client.println("<br><br>");
+  client.print("Ledi is now: ");
+  if (value[i] == HIGH) {
     client.print("On");
   } else {
     client.print("Off");
   }
-  client.println("<br><br>");
-  client.println("<a href=\"/LED0=ON\"\"><button>On </button></a>");
-  client.println("<a href=\"/LED0=OFF\"\"><button>Off </button></a><br />");
-  client.println("<br><br>");
-  client.print("Led2 is now: ");
-  if (value1 == HIGH) {
-    client.print("On");
-  } else {
-    client.print("Off");
   }
-  client.println("<br><br>");
-  client.println("<a href=\"/LED1=ON\"\"><button>On </button></a>");
-  client.println("<a href=\"/LED1=OFF\"\"><button>Off </button></a><br />");
-  client.println("<br><br>");
 
-  client.print("Led3 is now: ");
-  if (value2 == HIGH) {
-    client.print("On");
-  } else {
-    client.print("Off");
-  }
-  client.println("<br><br>");
-  client.println("<a href=\"/LED2=ON\"\"><button>On </button></a>");
-  client.println("<a href=\"/LED2=OFF\"\"><button>Off </button></a><br />");
-  client.println("<br><br>");
-  client.print("Led4 is now: ");
-  if (value3 == HIGH) {
-    client.print("On");
-  } else {
-    client.print("Off");
-  }
-  client.println("<br><br>");
-  client.println("<a href=\"/LED3=ON\"\"><button>On </button></a>");
-  client.println("<a href=\"/LED3=OFF\"\"><button>Off </button></a><br />");
   client.println("<br><br>");
   client.println("<br><br>");
   client.println("<br><br>");
