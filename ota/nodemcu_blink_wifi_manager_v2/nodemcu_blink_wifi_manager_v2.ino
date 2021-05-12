@@ -1,10 +1,4 @@
-//Mucitpilot 2020
-//Blynk ve ESP8266 Kullanımında Ağ Adı-Şifresi ve Blynk Token'in dışarıdan Girilerek
-//Sonrasında EPROM'da saklanarak kullanılabileceği uygulama
-//Hazır kütüphanelerde sorun yaşadığım için normal Wifimanager kütüphanesini kullanıp, token verisini EPROM'a yazıp okuyan bir çözüm geliştirdim.
-//ayrıca butona fonk atayıp 3sn den fazla basınca tüm ayarları resetletiyorum.
 
-//Gerekli kütüphaneler
 
 #define BLYNK_PRINT Serial
 //#ifndef UNIT_TEST
